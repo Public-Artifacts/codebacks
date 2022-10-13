@@ -43,8 +43,6 @@ contract ZSUStudentOrientationForkback is ERC721Enumerable, Ownable {
     bool public isPreSaleActive = false;
     bool public isPublicSaleActive = false;
 
-    // StudentIDGenerator public generator;
-
     struct Student {
         uint256 studentId;
         uint8 classLevel;
@@ -64,7 +62,7 @@ contract ZSUStudentOrientationForkback is ERC721Enumerable, Ownable {
 
     address public MULTI_WALLET = address(this);
 
-    address generatorAddress;
+    StudentIDGenerator public generator; 
 
     constructor(
         string memory name,
@@ -78,8 +76,10 @@ contract ZSUStudentOrientationForkback is ERC721Enumerable, Ownable {
         courseCreditsUri = creditsUri;
         MULTI_WALLET = multiSigWallet;
         uint256 tokenId = MAX_LEGENDARY_COUNT + 1;
-        generatorAddress = generatorContract;
-        setStudentId(generatorAddress, tokenId, msg.sender);        
+        
+        generator = StudentIDGenerator(generatorContract);
+        setStudentId(tokenId,msg.sender);    
+
         totalZombieSupply += 1;
         totalReserveSupply += 1;
         _safeMint(msg.sender, tokenId);
@@ -110,18 +110,9 @@ contract ZSUStudentOrientationForkback is ERC721Enumerable, Ownable {
         return uint256(keccak256(abi.encodePacked(_identifier))) % 10**24; //10 is modulus and 24 is student id digits based on number of layers
     }
 
-    function getStudentId(uint256 tokenId) public view returns (uint256) {
-        require(tokenId > 0, "it");
-        return Students[tokenId].studentId;
+    function setStudentId(uint256 tokenId, address wallet) private {
+        Students[tokenId] = Student(generator.setStudentId(tokenId, wallet), 0, 0, "");
     }
-
-    function setStudentId(address _generator, uint256 tokenId, address wallet) private {
-        // uint idgen = generator.generateRandomStudentId(string(abi.encodePacked(tokenId.toString(), wallet)));
-        // console.log(generator);
-        StudentIDGenerator generator = StudentIDGenerator(_generator);
-        uint idgen = generator.test();
-        Students[tokenId] = Student(idgen, 0, 0, "");
-    } 
 
     function tokenURI(uint256 tokenId)
         public
@@ -186,7 +177,7 @@ contract ZSUStudentOrientationForkback is ERC721Enumerable, Ownable {
 
     function sharedMintFunc(address wallet) private {
         uint256 tokenId = MAX_LEGENDARY_COUNT + totalZombieSupply + 1;                      
-        setStudentId(generatorAddress, tokenId, msg.sender);
+        setStudentId(tokenId, msg.sender);
         totalZombieSupply += 1;
         _safeMint(wallet, tokenId);
     }
@@ -232,7 +223,7 @@ contract ZSUStudentOrientationForkback is ERC721Enumerable, Ownable {
             for (uint256 t = 0; t < numberOfTokensPerAddress; t++) {
                 if(isLegendary) {                    
                     uint256 tokenId = totalLegendarySupply + 1;                    
-                    setStudentId(generatorAddress, tokenId, msg.sender);
+                    setStudentId(tokenId, msg.sender);
                     totalReserveSupply += 1;
                     totalZombieSupply += 1;
                     totalLegendarySupply += 1;
