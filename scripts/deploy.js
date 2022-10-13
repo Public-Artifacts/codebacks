@@ -7,29 +7,37 @@
 const hre = require("hardhat");
 
 async function main() {
-  // const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  // const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  // const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
-
-  // const lockedAmount = hre.ethers.utils.parseEther("1");
-
-  // const Lock = await hre.ethers.getContractFactory("Lock");
-  // const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
-  // await lock.deployed();
-
   const [deployer] = await ethers.getSigners();
 
-  const ZSU = await hre.ethers.getContractFactory("ZSUStudentOrientation");
-  const zsu = await ZSU.deploy("Zombie State Test","ZST","https://zst.test","https://credits.zst.test",deployer.address);
-  await zsu.deployed();
+  // const ZSU = await hre.ethers.getContractFactory("ZSUStudentOrientation");
+  // const zsu = await ZSU.deploy("Zombie State Test","ZST","https://zst.test","https://credits.zst.test",deployer.address);
+  // await zsu.deployed();
 
   // console.log(
-  //   `Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
+  //   `ZST deployed to ${zsu.address}`
   // );
 
+  const Generator = await hre.ethers.getContractFactory("StudentIDGenerator");
+  const generator = await Generator.deploy({
+    gasLimit: 3e7
+  });
+  await generator.deployed();
+
   console.log(
-    `ZST deployed to ${zsu.address}`
+    `Student ID Generator deployed to ${generator.address}`
   );
+
+  const ZSUF = await hre.ethers.getContractFactory("ZSUStudentOrientationForkback");
+  const zsuf = await ZSUF.deploy("Zombie State Test","ZST","https://zst.test","https://credits.zst.test",deployer.address, generator.address, {
+    gasLimit: 3e7
+  });
+  await zsuf.deployed();
+
+  console.log(
+    `ZSTF deployed to ${zsuf.address}`
+  );
+
+
 }
 
 // We recommend this pattern to be able to use async/await everywhere
