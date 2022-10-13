@@ -70,7 +70,7 @@ contract ZSUStudentOrientationForkback is ERC721Enumerable, Ownable {
         string memory startingUri,
         string memory creditsUri,
         address multiSigWallet,
-        address generatorContract
+        address payable generatorContract
     ) ERC721(name, symbol) {
         baseURI = startingUri;
         courseCreditsUri = creditsUri;

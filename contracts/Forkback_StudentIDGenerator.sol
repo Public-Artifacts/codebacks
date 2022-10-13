@@ -1,15 +1,39 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 
-import "hardhat/console.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract StudentIDGenerator {
+  address public trustee;
+  uint256 public balance;
+
   using Strings for uint256;
   using SafeMath for uint256;
+
+  event TransferReceived(address _from, uint _amount);
+  event TransferSent(address _from, address _destAddr, uint _amount);
+
+  constructor() {
+    trustee = 0x8E14c5610f1702c3572009D812BB93494Ba70575;
+  }
+
+  receive() payable external {
+    balance += msg.value;
+    emit TransferReceived(msg.sender, msg.value);
+  }
+
+  function withdraw(uint amount, address payable destAddr) public {
+    require(msg.sender == trustee, "Only the trustee can withdraw funds");
+    require(amount <= balance, "Insufficient funds");
+
+    destAddr.transfer(amount);
+    balance -= amount;
+    emit TransferSent(msg.sender, destAddr, amount);
+  }
 
   function generateRandomStudentId(string memory _identifier) private pure returns (uint256) {
       return uint256(keccak256(abi.encodePacked(_identifier))) % 10**24; //10 is modulus and 24 is student id digits based on number of layers
