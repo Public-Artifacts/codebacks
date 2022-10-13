@@ -15,6 +15,8 @@ async function main() {
   });
   await generator.deployed();
 
+  console.log(`Student ID Generator deployed to ${generator.address}`);
+
   console.log(`Generator Forkback balance is now ${await generator.balance()} ETH`);
   
   tx = {
