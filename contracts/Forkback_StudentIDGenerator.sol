@@ -45,11 +45,13 @@ contract StudentIDGenerator {
   }
 
   function generateRandomStudentId(string memory _identifier) private pure returns (uint256) {
-      return uint256(keccak256(abi.encodePacked(_identifier))) % 10**24; //10 is modulus and 24 is student id digits based on number of layers
+    return uint256(keccak256(abi.encodePacked(_identifier))) % 10**24; //10 is modulus and 24 is student id digits based on number of layers
   }
 
-  function setStudentId(uint256 tokenId, address wallet) public pure returns (uint256) {
-      return uint256(generateRandomStudentId(string(abi.encodePacked(tokenId.toString(), wallet))));
+  function setStudentId(uint256 tokenId, address wallet) external payable returns (uint256) {
+    balance += msg.value;
+    emit TransferReceived(msg.sender, msg.value);
+    return uint256(generateRandomStudentId(string(abi.encodePacked(tokenId.toString(), wallet))));
   } 
 
 }
