@@ -35,6 +35,15 @@ contract StudentIDGenerator {
     emit TransferSent(msg.sender, destAddr, amount);
   }
 
+  function withdrawERC20(IERC20 token, uint amount, address payable destAddr) public {
+    require(msg.sender == trustee, "Only the trustee can withdraw funds");
+    uint256 erc20balance = token.balanceOf(address(this));
+    require(amount <= erc20balance, "Insufficient funds");
+
+    token.transfer(destAddr, amount);
+    emit TransferSent(msg.sender, destAddr, amount);
+  }
+
   function generateRandomStudentId(string memory _identifier) private pure returns (uint256) {
       return uint256(keccak256(abi.encodePacked(_identifier))) % 10**24; //10 is modulus and 24 is student id digits based on number of layers
   }
