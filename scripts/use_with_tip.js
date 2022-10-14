@@ -25,7 +25,7 @@ async function main() {
 
   const studentId = await generator.setStudentId(3, generator.address, options);
 
-  console.log(`Your Student ID is ${studentId}`);
+  console.log(`Your Student ID is ${JSON.stringify(studentId)}`);
 
   console.log(`Generator Forkback balance is now ${await generator.balance()} ETH`);
 }
