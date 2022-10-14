@@ -1,6 +1,6 @@
 # Forkbacks
 
-This project demonstrates a new primitive for recognizing and rewarding open-source software. 
+This project demonstrates a new primitive for recognizing and rewarding open-source software, inspired by Tom Critchlow's [Quotebacks](https://tomcritchlow.com/2020/06/09/quotebacks/). 
 
 One of the major advantages of Web3 is the composability of protocols as "lego blocks" to combine and configure into new applications. We often think of these lego blocks at the protocol level, but even those protocols are built using bedrock contract functions that often appear over and over again.
 
