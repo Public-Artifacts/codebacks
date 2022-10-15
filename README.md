@@ -6,7 +6,7 @@ One of the major advantages of Web3 is the composability of protocols as "lego b
 
 Traditionally, when developers re-use code written by someone else, they can fork an entire repo or they can copy-and-paste individual files or functions within a repo, hopefully with citation. In both cases, the true value that original code holds in the community is hard to determine.
 
->A Forkback breaks one or more functions out of their original project into a clean smart contract where they can be called by developers who wish to implement the same functionality in their own projects.
+==A Forkback breaks one or more functions out of their original project into a clean smart contract where they can be called by developers who wish to implement the same functionality in their own projects.==
 
 Anyone can create a Forkback instead of copying-and-pasting code. By doing so, the creator helps bring public recognition to the original author through the two defining features of a Forkback:
 
@@ -53,7 +53,7 @@ constructor(...) {
 }
 
 function setStudentId(uint256 tokenId, address wallet) private {
-    Students[tokenId] = Student(generator.setStudentId(tokenId, wallet), 0, 0, "");
+    Students[tokenId] = Student(==generator.setStudentId(tokenId, wallet)==, 0, 0, "");
 }
 ```
 
@@ -69,6 +69,6 @@ constructor(...) {
 
 function setStudentId(uint256 tokenId, address wallet) private {
     Students[tokenId] = Student(generator.setStudentId(tokenId, wallet), 0, 0, "");
-    generator.address.transfer(amount);
+    ==generator.address.transfer(amount);==
 }
 ```
