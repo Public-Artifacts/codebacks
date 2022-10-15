@@ -6,14 +6,16 @@ One of the major advantages of Web3 is the composability of protocols as "lego b
 
 Traditionally, when developers re-use code written by someone else, they can fork an entire repo or they can copy-and-paste individual files or functions within a repo, hopefully with citation. In both cases, the true value that original code holds in the community is hard to determine.
 
-==A Forkback breaks one or more functions out of their original project into a clean smart contract where they can be called by developers who wish to implement the same functionality in their own projects.==
+*A Forkback breaks one or more functions out of their original project into a clean smart contract where they can be called by developers who wish to implement the same functionality in their own projects.*
+
+---
 
 Anyone can create a Forkback instead of copying-and-pasting code. By doing so, the creator helps bring public recognition to the original author through the two defining features of a Forkback:
 
 1. Forkbacks emit events every time they are called, so the community can see which applications are built with that function and how often the function is used using event monitoring tools like Dune Analytics.
 
 2. Forkbacks accept optional tips in ETH or any ERC20 or ERC721 token, which can only be withdrawn by the trustee designated by the creator. The Trustee is meant to be the original publisher of the function.
-
+---
 This repo contains a simple proof of concept from a fun NFT project called Zombie State University, written by [Justin Hunter](https://twitter.com/polluterofminds).
 
 [ZSU.sol](./contracts/ZSU.sol) is a copy of the original smart contract for Zombie State University. It contains a function called `generateRandomStudentId` that generates a unique identifier for each NFT that defines the art layers that token will receive. This function could certainly be used for other projects, and rather than copy-and-pasting it, a developer may choose to create a Forkback as a way to credit Justin's work.
@@ -53,7 +55,7 @@ constructor(...) {
 }
 
 function setStudentId(uint256 tokenId, address wallet) private {
-    Students[tokenId] = Student(==generator.setStudentId(tokenId, wallet)==, 0, 0, "");
+    Students[tokenId] = Student(generator.setStudentId(tokenId, wallet), 0, 0, "");
 }
 ```
 
@@ -69,6 +71,6 @@ constructor(...) {
 
 function setStudentId(uint256 tokenId, address wallet) private {
     Students[tokenId] = Student(generator.setStudentId(tokenId, wallet), 0, 0, "");
-    ==generator.address.transfer(amount);==
+    generator.address.transfer(amount);
 }
 ```
