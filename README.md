@@ -74,3 +74,9 @@ function setStudentId(uint256 tokenId, address wallet) private {
     generator.address.transfer(amount);
 }
 ```
+---
+One drawback for developers implementing Forkback is the increased gas cost for the developer's users.
+
+More testing is needed, but initial testing on the ZSU implementation described above shows that the mint function would require just 7,491 more gas with Forkback, an increase of 3.7%.
+
+Both amounts and percentages will vary for different implementations.
