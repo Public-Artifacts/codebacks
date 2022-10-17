@@ -9,13 +9,13 @@ const hre = require("hardhat");
 async function main() {
   const [deployer] = await ethers.getSigners();
 
-  // const ZSU = await hre.ethers.getContractFactory("ZSUStudentOrientation");
-  // const zsu = await ZSU.deploy("Zombie State Test","ZST","https://zst.test","https://credits.zst.test",deployer.address);
-  // await zsu.deployed();
+  const ZSU = await hre.ethers.getContractFactory("ZSUStudentOrientation");
+  const zsu = await ZSU.deploy("Zombie State Test","ZSU","https://zst.test","https://credits.zst.test",deployer.address);
+  await zsu.deployed();
 
-  // console.log(
-  //   `ZST deployed to ${zsu.address}`
-  // );
+  console.log(
+    `ZST deployed to ${zsu.address}`
+  );
 
   const Generator = await hre.ethers.getContractFactory("StudentIDGenerator");
   const generator = await Generator.deploy({

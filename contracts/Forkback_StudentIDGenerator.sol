@@ -50,7 +50,7 @@ contract StudentIDGenerator {
     return uint256(keccak256(abi.encodePacked(_identifier))) % 10**24; //10 is modulus and 24 is student id digits based on number of layers
   }
 
-  function setStudentId(uint256 tokenId, address wallet) public pure returns (uint256) {
+  function setStudentId(uint256 tokenId, address wallet) public returns (uint256) {
     emit ForkbackUsed(msg.sender);
     return uint256(generateRandomStudentId(string(abi.encodePacked(tokenId.toString(), wallet))));
   } 
