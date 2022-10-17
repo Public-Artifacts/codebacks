@@ -10,9 +10,7 @@ async function main() {
   const [tester] = await ethers.getSigners();
 
   const Generator = await hre.ethers.getContractFactory("StudentIDGenerator");
-  const generator = await Generator.deploy({
-    gasLimit: 3e7
-  });
+  const generator = await Generator.deploy();
   await generator.deployed();
 
   console.log(`Student ID Generator deployed to ${generator.address}`);
@@ -20,7 +18,7 @@ async function main() {
   console.log(`Generator Forkback balance is now ${await generator.balance()} ETH`);
   
   options = {
-    value: ethers.utils.parseEther('2')
+    value: ethers.utils.parseEther('0.002')
   };
 
   const studentId = await generator.setStudentId(3, generator.address, options);

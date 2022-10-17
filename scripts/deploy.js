@@ -18,9 +18,7 @@ async function main() {
   );
 
   const Generator = await hre.ethers.getContractFactory("StudentIDGenerator");
-  const generator = await Generator.deploy({
-    gasLimit: 3e7
-  });
+  const generator = await Generator.deploy();
   await generator.deployed();
 
   console.log(
@@ -28,9 +26,7 @@ async function main() {
   );
 
   const ZSUF = await hre.ethers.getContractFactory("ZSUStudentOrientationForkback");
-  const zsuf = await ZSUF.deploy("Zombie State Test","ZST","https://zst.test","https://credits.zst.test",deployer.address, generator.address, {
-    gasLimit: 3e7
-  });
+  const zsuf = await ZSUF.deploy("Zombie State Test","ZST","https://zst.test","https://credits.zst.test",deployer.address, generator.address);
   await zsuf.deployed();
 
   console.log(

@@ -10,9 +10,7 @@ async function main() {
   const [tester] = await ethers.getSigners();
 
   const Generator = await hre.ethers.getContractFactory("StudentIDGenerator");
-  const generator = await Generator.deploy({
-    gasLimit: 3e7
-  });
+  const generator = await Generator.deploy();
   await generator.deployed();
 
   console.log(`Student ID Generator deployed to ${generator.address}`);
@@ -21,7 +19,7 @@ async function main() {
   
   tx = {
     to: generator.address,
-    value: ethers.utils.parseEther('2')
+    value: ethers.utils.parseEther('0.002')
   };
 
   const tipEthTx = await tester.sendTransaction(tx);
