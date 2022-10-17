@@ -17,6 +17,7 @@ contract StudentIDGenerator {
 
   event TransferReceived(address _from, uint _amount);
   event TransferSent(address _from, address _destAddr, uint _amount);
+  event ForkbackUsed(address _from);
 
   constructor() {
     trustee = 0x8E14c5610f1702c3572009D812BB93494Ba70575;
@@ -50,6 +51,7 @@ contract StudentIDGenerator {
   }
 
   function setStudentId(uint256 tokenId, address wallet) public pure returns (uint256) {
+    emit ForkbackUsed(msg.sender);
     return uint256(generateRandomStudentId(string(abi.encodePacked(tokenId.toString(), wallet))));
   } 
 
