@@ -47,6 +47,8 @@ function setStudentId(uint256 tokenId, address wallet) private {
 to this:
 
 ```solidity
+import {StudentIDGenerator};
+
 constructor(...) {
     ...
     generator = StudentIDGenerator(generatorContract);
@@ -62,6 +64,8 @@ function setStudentId(uint256 tokenId, address wallet) private {
 To tip the original author Justin, a developer would simply call `generator.address.transfer(amount);`. One implementation could be to leave a small tip every time you call the Forkback function:
 
 ```solidity
+import {StudentIDGenerator};
+
 constructor(...) {
     ...
     generator = StudentIDGenerator(generatorContract);
