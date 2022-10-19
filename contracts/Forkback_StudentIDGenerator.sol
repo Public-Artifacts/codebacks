@@ -18,6 +18,7 @@ contract StudentIDGenerator {
   event TransferReceived(address _from, uint _amount);
   event TransferSent(address _from, address _destAddr, uint _amount);
   event ForkbackUsed(address _from);
+  event TrusteeChanged(address _from, address _to);
 
   constructor() {
     trustee = 0x8E14c5610f1702c3572009D812BB93494Ba70575;
@@ -44,6 +45,14 @@ contract StudentIDGenerator {
 
     token.transfer(destAddr, amount);
     emit TransferSent(msg.sender, destAddr, amount);
+  }
+
+  function changeTrustee(address newTrustee) public {
+    require(msg.sender == trustee, "Only the trustee can change the trustee");
+    require(newTrustee != trustee, "New trustee must be different from current trustee");
+    trustee = newTrustee;
+    emit TrusteeChanged(msg.sender, newTrustee);
+
   }
 
   function generateRandomStudentId(string memory _identifier) private pure returns (uint256) {
