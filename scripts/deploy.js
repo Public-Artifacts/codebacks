@@ -17,8 +17,14 @@ async function main() {
     `ZST deployed to ${zsu.address}`
   );
 
+  var trustee;
+  if (hre.network.name == 'localhost') {
+    trustee = '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266';
+  } else {
+    trustee = '0x8E14c5610f1702c3572009D812BB93494Ba70575';
+  }
   const Generator = await hre.ethers.getContractFactory("StudentIDGenerator");
-  const generator = await Generator.deploy();
+  const generator = await Generator.deploy(trustee);
   await generator.deployed();
 
   console.log(

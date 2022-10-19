@@ -20,8 +20,10 @@ contract StudentIDGenerator {
   event ForkbackUsed(address _from);
   event TrusteeChanged(address _from, address _to);
 
-  constructor() {
-    trustee = 0x8E14c5610f1702c3572009D812BB93494Ba70575;
+  constructor(
+    address trusteeWallet
+  ) {
+    trustee = trusteeWallet;
   }
 
   receive() payable external {
