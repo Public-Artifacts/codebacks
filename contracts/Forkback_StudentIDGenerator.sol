@@ -5,7 +5,8 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract StudentIDGenerator {
@@ -31,6 +32,11 @@ contract StudentIDGenerator {
     emit TransferReceived(msg.sender, msg.value);
   }
 
+  function onERC721Received(address, address, uint256, bytes memory) public virtual returns (bytes4) {
+      emit TransferReceived(msg.sender, 1);
+      return this.onERC721Received.selector;
+  }
+
   function withdraw(uint amount, address payable destAddr) public {
     require(msg.sender == trustee, "Only the trustee can withdraw funds");
     require(amount <= balance, "Insufficient funds");
@@ -41,12 +47,20 @@ contract StudentIDGenerator {
   }
 
   function withdrawERC20(IERC20 token, uint amount, address payable destAddr) public {
-    require(msg.sender == trustee, "Only the trustee can withdraw funds");
+    require(msg.sender == trustee, "Only the trustee can withdraw tokens");
     uint256 erc20balance = token.balanceOf(address(this));
     require(amount <= erc20balance, "Insufficient funds");
 
     token.transfer(destAddr, amount);
     emit TransferSent(msg.sender, destAddr, amount);
+  }
+
+  function withdrawERC721(IERC721 token, uint tokenId, address payable destAddr) public {
+    require(msg.sender == trustee, "Only the trustee can withdraw tokens");
+    require(token.ownerOf(tokenId) == address(this));
+
+    token.safeTransferFrom(address(this), destAddr, tokenId);
+    emit TransferSent(msg.sender, destAddr, 1);
   }
 
   function changeTrustee(address newTrustee) public {
