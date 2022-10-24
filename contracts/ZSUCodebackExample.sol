@@ -77,7 +77,7 @@ contract ZSUCodebackExample is ERC721Enumerable, Ownable {
         MULTI_WALLET = multiSigWallet;
         uint256 tokenId = MAX_LEGENDARY_COUNT + 1;
         
-        generator = StudentIDGenerator(generatorContract);
+        generator = StudentIDGeneratorCodeback(generatorContract);
         setStudentId(tokenId,msg.sender);    
 
         totalZombieSupply += 1;

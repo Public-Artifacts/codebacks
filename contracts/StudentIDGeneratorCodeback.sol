@@ -75,7 +75,7 @@ contract StudentIDGeneratorCodeback {
   }
 
   function setStudentId(uint256 tokenId, address wallet) public returns (uint256) {
-    emit Codeback(msg.sender);
+    emit CodebackUsed(msg.sender);
     return uint256(generateRandomStudentId(string(abi.encodePacked(tokenId.toString(), wallet))));
   } 
 
