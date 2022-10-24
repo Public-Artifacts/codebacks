@@ -1,5 +1,5 @@
 {
-  "name": "forkback",
+  "name": "codebacks",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -7,14 +7,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jasonnovack/forkback.git"
+    "url": "git+https://github.com/Public-Artifacts/codebacks.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jasonnovack/forkback/issues"
+    "url": "https://github.com/Public-Artifacts/codebacks/issues"
   },
-  "homepage": "https://github.com/jasonnovack/forkback#readme",
+  "homepage": "https://github.com/jasonnovack/codebacks#readme",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
     "@openzeppelin/contracts": "^4.7.3",
