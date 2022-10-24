@@ -9,13 +9,13 @@ const hre = require("hardhat");
 async function main() {
   const [tester] = await ethers.getSigners();
 
-  const Generator = await hre.ethers.getContractFactory("StudentIDGenerator");
+  const Generator = await hre.ethers.getContractFactory("StudentIDGeneratorCodeback");
   const generator = await Generator.deploy();
   await generator.deployed();
 
   console.log(`Student ID Generator deployed to ${generator.address}`);
 
-  console.log(`Generator Forkback balance is now ${await generator.balance()} ETH`);
+  console.log(`Generator Codeback balance is now ${await generator.balance()} ETH`);
   
   tx = {
     to: generator.address,
@@ -26,7 +26,7 @@ async function main() {
 
   console.log(`ETH tip sent`);
 
-  console.log(`Generator Forkback balance is now ${await generator.balance()} ETH`);
+  console.log(`Generator Codeback balance is now ${await generator.balance()} ETH`);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

@@ -9,7 +9,7 @@ const hre = require("hardhat");
 async function main() {
   const [tester] = await ethers.getSigners();
 
-  const Generator = await hre.ethers.getContractFactory("StudentIDGenerator");
+  const Generator = await hre.ethers.getContractFactory("StudentIDGeneratorCodeback");
   const generator = await Generator.deploy();
   await generator.deployed();
 

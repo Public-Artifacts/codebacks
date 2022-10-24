@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./Forkback_StudentIDGenerator.sol";
+import "./StudentIDGeneratorCodeback.sol";
 
 // xm = "would exceed max supply"
 // tm = "Too many tokens"
@@ -19,7 +19,7 @@ import "./Forkback_StudentIDGenerator.sol";
 // if = "Insufficient funds"
 // am = "All tokens minted"
 
-contract ZSUStudentOrientationForkback is ERC721Enumerable, Ownable {
+contract ZSUCodebackExample is ERC721Enumerable, Ownable {
     using Strings for uint256;
     using SafeMath for uint256;
 
@@ -62,7 +62,7 @@ contract ZSUStudentOrientationForkback is ERC721Enumerable, Ownable {
 
     address public MULTI_WALLET = address(this);
 
-    StudentIDGenerator public generator; 
+    StudentIDGeneratorCodeback public generator; 
 
     constructor(
         string memory name,

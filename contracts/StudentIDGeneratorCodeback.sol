@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract StudentIDGenerator {
+contract StudentIDGeneratorCodeback {
   address public trustee;
   uint256 public balance;
 
@@ -17,7 +17,7 @@ contract StudentIDGenerator {
 
   event TransferReceived(address _from, uint _amount);
   event TransferSent(address _from, address _destAddr, uint _amount);
-  event ForkbackUsed(address _from);
+  event CodebackUsed(address _from);
   event TrusteeChanged(address _from, address _to);
 
   constructor(
@@ -75,7 +75,7 @@ contract StudentIDGenerator {
   }
 
   function setStudentId(uint256 tokenId, address wallet) public returns (uint256) {
-    emit ForkbackUsed(msg.sender);
+    emit Codeback(msg.sender);
     return uint256(generateRandomStudentId(string(abi.encodePacked(tokenId.toString(), wallet))));
   } 
 

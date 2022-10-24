@@ -10,7 +10,7 @@ async function main() {
   const [deployer] = await ethers.getSigners();
 
   const ZSU = await hre.ethers.getContractFactory("ZSUStudentOrientation");
-  const zsu = await ZSU.deploy("Zombie State Test","ZSU","https://zst.test","https://credits.zst.test",deployer.address);
+  const zsu = await ZSU.deploy("Zombie State University","ZSU","https://zsu.test","https://credits.zsu.test",deployer.address);
   await zsu.deployed();
 
   console.log(
@@ -23,7 +23,7 @@ async function main() {
   } else {
     trustee = '0x8E14c5610f1702c3572009D812BB93494Ba70575';
   }
-  const Generator = await hre.ethers.getContractFactory("StudentIDGenerator");
+  const Generator = await hre.ethers.getContractFactory("StudentIDGeneratorCodeback");
   const generator = await Generator.deploy(trustee);
   await generator.deployed();
 
@@ -31,12 +31,12 @@ async function main() {
     `Student ID Generator deployed to ${generator.address}`
   );
 
-  const ZSUF = await hre.ethers.getContractFactory("ZSUStudentOrientationForkback");
-  const zsuf = await ZSUF.deploy("Zombie State Test","ZST","https://zst.test","https://credits.zst.test",deployer.address, generator.address);
-  await zsuf.deployed();
+  const ZSUC = await hre.ethers.getContractFactory("ZSUCodebackExample");
+  const zsuc = await ZSUC.deploy("Zombie State University","ZSU","https://zsu.test","https://credits.zsu.test",deployer.address, generator.address);
+  await zsuc.deployed();
 
   console.log(
-    `ZSTF deployed to ${zsuf.address}`
+    `ZST with Codebacks deployed to ${zsuc.address}`
   );
 
 
