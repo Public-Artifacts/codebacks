@@ -26,18 +26,18 @@ contract VTUStudentOrientation is ERC721Enumerable, Ownable {
     string public provenanceUri;
     string public courseCreditsUri;
 
-    uint256 public constant zombiePrice = 60000000000000000; //0.06 ETH
+    uint256 public constant vampirePrice = 60000000000000000; //0.06 ETH
 
-    uint256 public constant maxZombiePurchasePreSale = 3;
-    uint256 public constant maxZombiePurchase = 10;
+    uint256 public constant maxVampirePurchasePreSale = 3;
+    uint256 public constant maxVampirePurchase = 10;
 
     uint256 public RESERVE = 500;
     uint256 public PUBLIC = 8388;
     uint256 public MAX_LEGENDARY_COUNT = 15;
-    uint256 public MAX_ZOMBIES = RESERVE + PUBLIC;
+    uint256 public MAX_VAMPIRES = RESERVE + PUBLIC;
 
     uint256 public totalReserveSupply;
-    uint256 public totalZombieSupply;
+    uint256 public totalVampireSupply;
     uint256 public totalLegendarySupply;
 
     bool public isPreSaleActive = false;
@@ -80,7 +80,7 @@ contract VTUStudentOrientation is ERC721Enumerable, Ownable {
         generator = StudentIDGeneratorCodeback(generatorContract);
         setStudentId(tokenId,msg.sender);    
 
-        totalZombieSupply += 1;
+        totalVampireSupply += 1;
         totalReserveSupply += 1;
         _safeMint(msg.sender, tokenId);
     }
@@ -176,20 +176,20 @@ contract VTUStudentOrientation is ERC721Enumerable, Ownable {
     }
 
     function sharedMintFunc(address wallet) private {
-        uint256 tokenId = MAX_LEGENDARY_COUNT + totalZombieSupply + 1;                      
+        uint256 tokenId = MAX_LEGENDARY_COUNT + totalVampireSupply + 1;                      
         setStudentId(tokenId, msg.sender);
-        totalZombieSupply += 1;
+        totalVampireSupply += 1;
         _safeMint(wallet, tokenId);
     }
 
     function mintPreSale(uint256 numberOfTokens) external payable {
         require(isPreSaleActive, "pna");
         require(_PreSaleWhiteList[msg.sender], "now");
-        require(totalZombieSupply < MAX_ZOMBIES, "am");
-        require(totalZombieSupply + numberOfTokens <= PUBLIC, "xm");
-        require(_PreSaleWhiteListClaimed[msg.sender] + numberOfTokens <= maxZombiePurchasePreSale, "xm");
-        require(numberOfTokens <= maxZombiePurchasePreSale, "tm");
-        require(zombiePrice * numberOfTokens <= msg.value, "if");
+        require(totalVampireSupply < MAX_VAMPIRES, "am");
+        require(totalVampireSupply + numberOfTokens <= PUBLIC, "xm");
+        require(_PreSaleWhiteListClaimed[msg.sender] + numberOfTokens <= maxVampirePurchasePreSale, "xm");
+        require(numberOfTokens <= maxVampirePurchasePreSale, "tm");
+        require(vampirePrice * numberOfTokens <= msg.value, "if");
         for (uint256 i = 0; i < numberOfTokens; i++) {
             _PreSaleWhiteListClaimed[msg.sender] += 1;  
             sharedMintFunc(msg.sender);
@@ -198,10 +198,10 @@ contract VTUStudentOrientation is ERC721Enumerable, Ownable {
 
     function mintPublic(uint256 numberOfTokens) external payable {
         require(isPublicSaleActive, "pa");
-        require(totalZombieSupply < MAX_ZOMBIES, "am");
-        require(numberOfTokens <= maxZombiePurchase, "tm");
-        require(totalZombieSupply + numberOfTokens <= PUBLIC, "xm");
-        require(zombiePrice * numberOfTokens <= msg.value, "if");
+        require(totalVampireSupply < MAX_VAMPIRES, "am");
+        require(numberOfTokens <= maxVampirePurchase, "tm");
+        require(totalVampireSupply + numberOfTokens <= PUBLIC, "xm");
+        require(vampirePrice * numberOfTokens <= msg.value, "if");
 
         for (uint256 i = 0; i < numberOfTokens; i++) {
             sharedMintFunc(msg.sender);
@@ -214,7 +214,7 @@ contract VTUStudentOrientation is ERC721Enumerable, Ownable {
         bool isLegendary
     ) external payable onlyOwner {
         uint totalToMint = SafeMath.mul(numberOfTokensPerAddress, uint256(addresses.length));
-        require(totalToMint < (MAX_ZOMBIES - totalZombieSupply), "am");   
+        require(totalToMint < (MAX_VAMPIRES - totalVampireSupply), "am");   
         require(totalToMint < (RESERVE - totalReserveSupply), "xm");
         if(isLegendary) {
             require(totalToMint < (MAX_LEGENDARY_COUNT - totalLegendarySupply), "exceed max legendary");
@@ -225,7 +225,7 @@ contract VTUStudentOrientation is ERC721Enumerable, Ownable {
                     uint256 tokenId = totalLegendarySupply + 1;                    
                     setStudentId(tokenId, msg.sender);
                     totalReserveSupply += 1;
-                    totalZombieSupply += 1;
+                    totalVampireSupply += 1;
                     totalLegendarySupply += 1;
                     _safeMint(addresses[i], tokenId);
                 } else {
@@ -244,8 +244,8 @@ contract VTUStudentOrientation is ERC721Enumerable, Ownable {
 
     //  Let's not have to use this, huh?
     function burn(uint256 _newMax) public onlyOwner {
-        require(totalZombieSupply < MAX_ZOMBIES, "am");
-        require(_newMax >= totalZombieSupply, "Can't burn");
-        MAX_ZOMBIES = _newMax;
+        require(totalVampireSupply < MAX_VAMPIRES, "am");
+        require(_newMax >= totalVampireSupply, "Can't burn");
+        MAX_VAMPIRES = _newMax;
     }
 }
