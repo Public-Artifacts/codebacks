@@ -31,12 +31,12 @@ async function main() {
     `Student ID Generator deployed to ${generator.address}`
   );
 
-  const ZSUC = await hre.ethers.getContractFactory("ZSUCodebackExample");
-  const zsuc = await ZSUC.deploy("Zombie State University","ZSU","https://zsu.test","https://credits.zsu.test",deployer.address, generator.address);
-  await zsuc.deployed();
+  const VTU = await hre.ethers.getContractFactory("VTUStudentOrientation");
+  const vtu = await VTU.deploy("Vampire Tech University","VTU","https://vtu.test","https://credits.vtu.test",deployer.address, generator.address);
+  await vtu.deployed();
 
   console.log(
-    `ZST with Codebacks deployed to ${zsuc.address}`
+    `VTU deployed to ${vtu.address}`
   );
 
 

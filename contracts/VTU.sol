@@ -19,7 +19,7 @@ import "./StudentIDGeneratorCodeback.sol";
 // if = "Insufficient funds"
 // am = "All tokens minted"
 
-contract ZSUCodebackExample is ERC721Enumerable, Ownable {
+contract VTUStudentOrientation is ERC721Enumerable, Ownable {
     using Strings for uint256;
     using SafeMath for uint256;
 

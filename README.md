@@ -22,7 +22,7 @@ This repo contains a simple proof of concept from a fun NFT project called Zombi
 
 [StudentIDGeneratorCodeback.sol](./contracts/StudentIDGeneratorCodeback.sol) is a new Codeback contract for the ZSU `generateRandomStudentId` function. The contract adds functions to receive and withdraw tokens, and names the [original ZSU contract's](https://etherscan.io/address/0xdb2448d266d311d35f56c46dd43884b7feeea76b) deployer address as the trustee. 
 
-[ZSUCodebackExample.sol](./contracts/ZSUCodebackExample.sol) demonstrates how a developer could implement the Codeback, by modifying:
+[VTU.sol](./contracts/ZSUCodebackExample.sol) demonstrates how a developer could implement the Codeback in a new project inspired by ZSU called Vampire Tech University, by modifying:
 
 ```solidity
 constructor(...) {

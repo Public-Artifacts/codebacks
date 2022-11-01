@@ -86,6 +86,6 @@ describe("Codeback Contract", function() {
     // Nobody else can change trustee
     // Codeback emits events
     // Anyone can call Codeback
-    // New ZSU contract mints using Codeback
+    // VTU contract mints using Codeback
   });
 });
