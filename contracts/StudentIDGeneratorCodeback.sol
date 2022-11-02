@@ -17,9 +17,8 @@ contract StudentIDGeneratorCodeback {
 
   event CodebackDeployed(address _creator, address _trustee, string _message);
   // No way to emit an event when receiving an ERC20. Will have to monitor that using token transfer events for known Codeback addresses
-  event CodebackTipReceived(address _from, string _token, uint _amount);
-  event CodebackTipClaimed(address _to, string _token, uint _amount);
-  event TransferSent(address _from, address _destAddr, uint _amount);
+  event CodebackTipReceived(address _from, address _token, uint _amount);
+  event CodebackTipClaimed(address _to, address _token, uint _amount);
   event CodebackUsed(address _from);
   event CodebackTrusteeChanged(address _from, address _to);
 
@@ -30,7 +29,7 @@ contract StudentIDGeneratorCodeback {
 
   receive() payable external {
     balance += msg.value;
-    emit CodebackTipReceived(msg.sender, "ETH", msg.value);
+    emit CodebackTipReceived(msg.sender, address(0x0000000000000000000000000000000000000000), msg.value);
   }
 
   function onERC721Received(address _operator, address _from, uint256 _tokenId, bytes memory _data) public virtual returns (bytes4) {
@@ -44,7 +43,7 @@ contract StudentIDGeneratorCodeback {
 
     destAddr.transfer(amount);
     balance -= amount;
-    emit CodebackTipClaimed(msg.sender, "ETH", amount);
+    emit CodebackTipClaimed(msg.sender, address(0x0000000000000000000000000000000000000000), amount);
   }
 
   function withdrawERC20(IERC20 token, uint amount, address payable destAddr) public {
@@ -53,7 +52,7 @@ contract StudentIDGeneratorCodeback {
     require(amount <= erc20balance, "Insufficient funds");
 
     token.transfer(destAddr, amount);
-    emit CodebackTipClaimed(msg.sender, token, amount);
+    emit CodebackTipClaimed(msg.sender, address(token), amount);
   }
 
   function withdrawERC721(IERC721 token, uint tokenId, address payable destAddr) public {
@@ -61,14 +60,14 @@ contract StudentIDGeneratorCodeback {
     require(token.ownerOf(tokenId) == address(this));
 
     token.safeTransferFrom(address(this), destAddr, tokenId);
-    emit CodebackTipClaimed(msg.sender, token, amount);
+    emit CodebackTipClaimed(msg.sender, address(token), 1);
   }
 
   function changeTrustee(address newTrustee) public {
     require(msg.sender == trustee, "Only the trustee can change the trustee");
     require(newTrustee != trustee, "New trustee must be different from current trustee");
     trustee = newTrustee;
-    emit event CodebackTrusteeChanged(msg.sender, newTrustee);
+    emit CodebackTrusteeChanged(msg.sender, newTrustee);
 
   }
 
