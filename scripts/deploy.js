@@ -20,6 +20,8 @@ async function main() {
   var trustee;
   if (hre.network.name == 'localhost') {
     trustee = '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266';
+  } else if (hre.network.name == 'mainnet') {
+    trustee = '0xF23010f47da99304E106F91F691817a3d216b6f6';
   } else {
     trustee = '0x8E14c5610f1702c3572009D812BB93494Ba70575';
   }

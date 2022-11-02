@@ -16,7 +16,7 @@ contract StudentIDGeneratorCodeback {
   using SafeMath for uint256;
 
   event CodebackDeployed(address _creator, address _trustee, string _message);
-  // No way to emit an event when receiving an ERC20. Will have to monitor that using token transfer events for known Codeback addresses
+  // This only works for ETH and ERC721.SafeTransferFrom, not ERC20 or ERC721.TransferFrom. To get all tip events, will have to monitor for token transfer events to all known Codeback addresses
   event CodebackTipReceived(address _from, address _token, uint _amount);
   event CodebackTipClaimed(address _to, address _token, uint _amount);
   event CodebackUsed(address _from);
