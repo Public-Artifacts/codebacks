@@ -18,9 +18,9 @@ Anyone can create a Codeback instead of copying-and-pasting code. By doing so, t
 ---
 This repo contains a simple proof of concept from a fun NFT project called Zombie State University, written by [Justin Hunter](https://twitter.com/polluterofminds).
 
-[ZSU.sol](./contracts/ZSU.sol) is a copy of the original smart contract for Zombie State University. It contains a function called `generateRandomStudentId` that generates a unique identifier for each NFT that defines the art layers that token will receive. This function could certainly be used for other projects, and rather than copy-and-pasting it, a developer may choose to create a Codeback as a way to credit Justin's work.
+[ZSU.sol](./contracts/ZSU.sol) is a copy of the original smart contract for Zombie State University. It contains a function called `setStudentId` that generates a unique identifier for each NFT that defines the art layers that token will receive. This function could certainly be used for other projects, and rather than copy-and-pasting it, a developer may choose to create a Codeback as a way to credit Justin's work.
 
-[StudentIDGeneratorCodeback.sol](./contracts/StudentIDGeneratorCodeback.sol) is a new Codeback contract for the ZSU `generateRandomStudentId` function. The contract adds functions to receive and withdraw tokens, and names the [original ZSU contract's](https://etherscan.io/address/0xdb2448d266d311d35f56c46dd43884b7feeea76b) deployer address as the trustee. 
+[StudentIDGeneratorCodeback.sol](./contracts/StudentIDGeneratorCodeback.sol) is a new Codeback contract for the ZSU `setStudentId` function. The contract adds functions to receive and withdraw tokens, and names the [original ZSU contract's](https://etherscan.io/address/0xdb2448d266d311d35f56c46dd43884b7feeea76b) deployer address as the trustee. 
 
 [VTU.sol](./contracts/ZSUCodebackExample.sol) demonstrates how a developer could implement the Codeback in a new project inspired by ZSU called Vampire Tech University, by modifying:
 
@@ -31,11 +31,7 @@ constructor(...) {
     ... 
 }
 
-function _generateRandomStudentId(string memory _identifier)
-    public
-    pure
-    returns (uint256)
-{
+function _generateRandomStudentId(string memory _identifier) public pure returns (uint256) {
     return uint256(keccak256(abi.encodePacked(_identifier))) % 10**24; //10 is modulus and 24 is student id digits based on number of layers
 }
 
