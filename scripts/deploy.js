@@ -9,13 +9,13 @@ const hre = require("hardhat");
 async function main() {
   const [deployer] = await ethers.getSigners();
 
-  const ZSU = await hre.ethers.getContractFactory("ZSUStudentOrientation");
-  const zsu = await ZSU.deploy("Zombie State University","ZSU","https://zsu.test","https://credits.zsu.test",deployer.address);
-  await zsu.deployed();
+  // const ZSU = await hre.ethers.getContractFactory("ZSUStudentOrientation");
+  // const zsu = await ZSU.deploy("Zombie State University","ZSU","https://zsu.test","https://credits.zsu.test",deployer.address);
+  // await zsu.deployed();
 
-  console.log(
-    `ZST deployed to ${zsu.address}`
-  );
+  // console.log(
+  //   `ZST deployed to ${zsu.address}`
+  // );
 
   var trustee;
   if (hre.network.name == 'localhost') {
@@ -31,13 +31,13 @@ async function main() {
     `Student ID Generator deployed to ${generator.address}`
   );
 
-  const VTU = await hre.ethers.getContractFactory("VTUStudentOrientation");
-  const vtu = await VTU.deploy("Vampire Tech University","VTU","https://vtu.test","https://credits.vtu.test",deployer.address, generator.address);
-  await vtu.deployed();
+  // const VTU = await hre.ethers.getContractFactory("VTUStudentOrientation");
+  // const vtu = await VTU.deploy("Vampire Tech University","VTU","https://vtu.test","https://credits.vtu.test",deployer.address, generator.address);
+  // await vtu.deployed();
 
-  console.log(
-    `VTU deployed to ${vtu.address}`
-  );
+  // console.log(
+  //   `VTU deployed to ${vtu.address}`
+  // );
 
 
 }

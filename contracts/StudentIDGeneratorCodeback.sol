@@ -15,24 +15,25 @@ contract StudentIDGeneratorCodeback {
   using Strings for uint256;
   using SafeMath for uint256;
 
-  event TransferReceived(address _from, uint _amount);
+  event CodebackDeployed(address _creator, address _trustee);
+  event CodebackTipReceived(address _from, string _type, string _token, uint _amount);
+  event CodebackTipClaimed(address _to, string _type, string _token, uint _amount);
   event TransferSent(address _from, address _destAddr, uint _amount);
   event CodebackUsed(address _from);
-  event TrusteeChanged(address _from, address _to);
+  event CodebackTrusteeChanged(address _from, address _to);
 
-  constructor(
-    address trusteeWallet
-  ) {
+  constructor(address trusteeWallet) {
     trustee = trusteeWallet;
+    emit CodebackDeployed(msg.sender, trustee);
   }
 
   receive() payable external {
     balance += msg.value;
-    emit TransferReceived(msg.sender, msg.value);
+    emit CodebackTipReceived(msg.sender, "ETH", "ETH", msg.value);
   }
 
-  function onERC721Received(address, address, uint256, bytes memory) public virtual returns (bytes4) {
-      emit TransferReceived(msg.sender, 1);
+  function onERC721Received(address _operator, address _from, uint256 _tokenId, bytes memory _data) public virtual returns (bytes4) {
+      emit CodebackTipReceived(_operator, "ERC721", msg.sender, 1);
       return this.onERC721Received.selector;
   }
 
@@ -42,7 +43,7 @@ contract StudentIDGeneratorCodeback {
 
     destAddr.transfer(amount);
     balance -= amount;
-    emit TransferSent(msg.sender, destAddr, amount);
+    emit CodebackTipClaimed(msg.sender, "ETH", "ETH", amount);
   }
 
   function withdrawERC20(IERC20 token, uint amount, address payable destAddr) public {
@@ -51,7 +52,7 @@ contract StudentIDGeneratorCodeback {
     require(amount <= erc20balance, "Insufficient funds");
 
     token.transfer(destAddr, amount);
-    emit TransferSent(msg.sender, destAddr, amount);
+    emit CodebackTipClaimed(msg.sender, "ERC20", token, amount);
   }
 
   function withdrawERC721(IERC721 token, uint tokenId, address payable destAddr) public {
@@ -59,14 +60,14 @@ contract StudentIDGeneratorCodeback {
     require(token.ownerOf(tokenId) == address(this));
 
     token.safeTransferFrom(address(this), destAddr, tokenId);
-    emit TransferSent(msg.sender, destAddr, 1);
+    emit CodebackTipClaimed(msg.sender, "ERC721", token, amount);
   }
 
   function changeTrustee(address newTrustee) public {
     require(msg.sender == trustee, "Only the trustee can change the trustee");
     require(newTrustee != trustee, "New trustee must be different from current trustee");
     trustee = newTrustee;
-    emit TrusteeChanged(msg.sender, newTrustee);
+    emit event CodebackTrusteeChanged(msg.sender, newTrustee);
 
   }
 
