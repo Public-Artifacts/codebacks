@@ -1,28 +1,25 @@
 # Codebacks
+##### An on-chain citation standard for open-source code
 
-This project demonstrates a new primitive for recognizing and rewarding open-source software, inspired by Toby Shorin & Tom Critchlow's [Quotebacks](https://tomcritchlow.com/2020/06/09/quotebacks/). 
+This project demonstrates a new primitive for abstracting, monitoring, and rewarding open-source software through citations, inspired by Toby Shorin & Tom Critchlow’s [Quotebacks](https://tomcritchlow.com/2020/06/09/quotebacks/).
 
-One of the major advantages of Web3 is the composability of protocols as "lego blocks" to combine and configure into new applications. We often think of these lego blocks at the protocol level, but even those protocols are built using bedrock contract functions that often appear over and over again.
+Codebacks is a simple implementation standard for creating a single global abstraction for reusable blocks of code that enables on-chain attribution, monitoring, and the ability to tip/reward the original author.
 
-Traditionally, when developers re-use code written by someone else, they can fork an entire repo or they can copy-and-paste individual files or functions within a repo, hopefully with citation. In both cases, the true value that original code holds in the community is hard to determine.
+It contains:
 
-*A Codeback breaks one or more functions out of their original project into a clean smart contract where they can be called by developers who wish to implement the same functionality in their own projects.*
-
----
-
-Anyone can create a Codeback instead of copying-and-pasting code. By doing so, the creator helps bring public recognition to the original author through the two defining features of a Codeback:
-
-1. Codebacks emit events every time they are called, so the community can see which applications are built with that function and how often the function is used using event monitoring tools like Dune Analytics.
-
-2. Codebacks accept optional tips in ETH or any ERC20 or ERC721 token, which can only be withdrawn by the trustee designated by the creator. The Trustee is meant to be the original publisher of the function.
+1. A citation standard for function-level code attribution. Anyone can create a codeback where they would have copied-and-pasted code. By creating a codeback, they create a global resource for future applications. By invoking that codeback from their application, they give explicit recognition to both the code and its original author as a dependency of their own application.
+2. An event emitter for each codeback. Each codeback emits events every time its function is called, allowing the community to see a global view of the applications built with each function, and how often that function is used - visualized via event monitoring tools like [Dune Analytics](https://dune.com/queries/1503075).
+3. An option to reward the original author. Codebacks accept optional tips in ETH or any ERC20 or ERC721 token, which can only be withdrawn by the trustee address designated by the codeback creator. The Trustee is meant to be the original publisher of the function.
 ---
 This repo contains a simple proof of concept from a fun NFT project called Zombie State University, written by [Justin Hunter](https://twitter.com/polluterofminds).
 
-[ZSU.sol](./contracts/ZSU.sol) is a copy of the original smart contract for Zombie State University. It contains a function called `setStudentId` that generates a unique identifier for each NFT that defines the art layers that token will receive. This function could certainly be used for other projects, and rather than copy-and-pasting it, a developer may choose to create a Codeback as a way to credit Justin's work.
+[ZSU.sol](./contracts/ZSU.sol) is a copy of the original smart contract for Zombie State University. In it is a function called `setStudentId` that generates a unique identifier for each NFT. That identifier is used in other functions to define the art layers that token will receive. 
 
-[StudentIDGeneratorCodeback.sol](./contracts/StudentIDGeneratorCodeback.sol) is a new Codeback contract for the ZSU `setStudentId` function. The contract adds functions to receive and withdraw tokens, and names the [original ZSU contract's](https://etherscan.io/address/0xdb2448d266d311d35f56c46dd43884b7feeea76b) deployer address as the trustee. 
+Say another developer is creating a project called Vampire Tech University that also needs to set a randomly generated numeric identifier for each token. Previously, this developer might copy and paste the ZSU `setStudentId` function into the new VTU contract. Instead, this developer may choose to create a Codeback as a way to credit Justin's code and make it a public resource for future developers who may like to reuse it.
 
-[VTU.sol](./contracts/ZSUCodebackExample.sol) demonstrates how a developer could implement the Codeback in a new project inspired by ZSU called Vampire Tech University, by modifying:
+[StudentIDGeneratorCodeback.sol](./contracts/StudentIDGeneratorCodeback.sol) is a new Codeback contract for the ZSU `setStudentId` function. In addition to the original code, the Codeback contract adds events that allow it to be publicly discoverable, adds functions that allow it to receive and withdraw tokens, and  names the [original ZSU contract's](https://etherscan.io/address/0xdb2448d266d311d35f56c46dd43884b7feeea76b) deployer address as the trustee able to claim any tokens that might be sent to the contract. 
+
+[VTU.sol](./contracts/ZSUCodebackExample.sol) is the new NFT contract that implements the Codeback, by modifying:
 
 ```solidity
 constructor(...) {
@@ -40,7 +37,7 @@ function setStudentId(uint256 tokenId, address wallet) private {
 } 
 ```
 
-to this:
+from the original ZSU contract, to this in the VTU contract:
 
 ```solidity
 import {StudentIDGenerator};
@@ -75,8 +72,6 @@ function setStudentId(uint256 tokenId, address wallet) private {
 }
 ```
 ---
-One drawback for developers implementing Codeback is the increased gas cost for the developer's users.
+One drawback for developers implementing Codeback is the increased gas cost for the developer's users. More testing is needed, but initial testing on the ZSU implementation described above shows that the mint function would require just 7,491 more gas with Codeback, an increase of 3.7%. Both amounts and percentages will vary for different implementations.
 
-More testing is needed, but initial testing on the ZSU implementation described above shows that the mint function would require just 7,491 more gas with Codeback, an increase of 3.7%.
-
-Both amounts and percentages will vary for different implementations.
+However, there are advantages to consider, including reduced size and complexity of new smart contracts, reduciton in redundant code deployed to the blockchain, and the social benefits of clearer recognition of valuable open source code.
