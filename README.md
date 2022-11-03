@@ -10,6 +10,8 @@ It contains:
 1. A citation standard for function-level code attribution. Anyone can create a codeback where they would have copied-and-pasted code. By creating a codeback, they create a global resource for future applications. By invoking that codeback from their application, they give explicit recognition to both the code and its original author as a dependency of their own application.
 2. An event emitter for each codeback. Each codeback emits events every time its function is called, allowing the community to see a global view of the applications built with each function, and how often that function is used - visualized via event monitoring tools like [Dune Analytics](https://dune.com/queries/1503075).
 3. An option to reward the original author. Codebacks accept optional tips in ETH or any ERC20 or ERC721 token, which can only be withdrawn by the trustee address designated by the codeback creator. The Trustee is meant to be the original publisher of the function.
+
+Read more in this [blog post](https://mirror.xyz/publicartifacts.eth/CgjqE86lbdRHsz_kL2WbDZeW6YjL0Z0tL8rldJnKqWc).
 ---
 This repo contains a simple proof of concept from a fun NFT project called Zombie State University, written by [Justin Hunter](https://twitter.com/polluterofminds).
 
@@ -74,4 +76,4 @@ function setStudentId(uint256 tokenId, address wallet) private {
 ---
 One drawback for developers implementing Codeback is the increased gas cost for the developer's users. More testing is needed, but initial testing on the ZSU implementation described above shows that the mint function would require just 7,491 more gas with Codeback, an increase of 3.7%. Both amounts and percentages will vary for different implementations.
 
-However, there are advantages to consider, including reduced size and complexity of new smart contracts, reduciton in redundant code deployed to the blockchain, and the social benefits of clearer recognition of valuable open source code.
+However, there are advantages to consider, including reduced size and complexity of new smart contracts, potentially less gas needed to deploy new contracts, reduciton in redundant code deployed to the blockchain, and the social benefits of clearer recognition of valuable open source code.
