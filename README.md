@@ -1,5 +1,5 @@
 # Codebacks
-##### An on-chain citation standard for open-source code
+### An on-chain citation standard for open-source code
 
 This project demonstrates a new primitive for abstracting, monitoring, and rewarding open-source software through citations, inspired by Toby Shorin & Tom Critchlow’s [Quotebacks](https://tomcritchlow.com/2020/06/09/quotebacks/).
 
@@ -12,6 +12,7 @@ It contains:
 3. An option to reward the original author. Codebacks accept optional tips in ETH or any ERC20 or ERC721 token, which can only be withdrawn by the trustee address designated by the codeback creator. The Trustee is meant to be the original publisher of the function.
 
 Read more in this [blog post](https://mirror.xyz/publicartifacts.eth/CgjqE86lbdRHsz_kL2WbDZeW6YjL0Z0tL8rldJnKqWc).
+
 ---
 This repo contains a simple proof of concept from a fun NFT project called Zombie State University, written by [Justin Hunter](https://twitter.com/polluterofminds).
 
@@ -39,7 +40,7 @@ function setStudentId(uint256 tokenId, address wallet) private {
 } 
 ```
 
-from the original ZSU contract, to this in the VTU contract:
+... from the original ZSU contract, to this in the VTU contract:
 
 ```solidity
 import {StudentIDGenerator};
@@ -77,3 +78,5 @@ function setStudentId(uint256 tokenId, address wallet) private {
 One drawback for developers implementing Codeback is the increased gas cost for the developer's users. More testing is needed, but initial testing on the ZSU implementation described above shows that the mint function would require just 7,491 more gas with Codeback, an increase of 3.7%. Both amounts and percentages will vary for different implementations.
 
 However, there are advantages to consider, including reduced size and complexity of new smart contracts, potentially less gas needed to deploy new contracts, reduciton in redundant code deployed to the blockchain, and the social benefits of clearer recognition of valuable open source code.
+
+If this interests you, please reach out to us. Our DMs are open on [Twitter](https://twitter.com/publicartifacts).
